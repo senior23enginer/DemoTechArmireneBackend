@@ -65,9 +65,9 @@ public class UsersServicesTest {
 
     @Test
     public void whenValidCreate_ThenReturnUser(){
-        Users userUpdate = usersService.createUser(new Users(41,"miguel","juniro","junior22@gmail.com"));
-System.out.println(userUpdate);
-        Assertions.assertThat(userUpdate.getEmail()).isEqualTo("junior22@gmail.com");
+        Users userUpdate = usersService.createUser(new Users(41,"miguel","juniro","junior2200@gmail.com"));
+
+        Assertions.assertThat(userUpdate.getEmail()).isEqualTo("junior2200@gmail.com");
     }
 
 

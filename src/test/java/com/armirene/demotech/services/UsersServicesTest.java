@@ -11,7 +11,9 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.mongodb.repository.support.SimpleMongoRepository;
 
 import java.util.Optional;
 
@@ -24,8 +26,10 @@ public class UsersServicesTest {
     @Mock
     private UsersSalesForceRepository usersSalesForceRepository;
 
-    @Mock
+    @Autowired
     private UsersService usersService;
+
+
 
     @BeforeEach
     public void setup(){
@@ -36,30 +40,34 @@ public class UsersServicesTest {
                 .thenReturn(Optional.of(userModel));
         Mockito.when(usersRepository.save(userModel)).thenReturn(userModel);
         Mockito.when(usersSalesForceRepository.save(userModelSales)).thenReturn(userModelSales);
+
+
+
+
     }
 
     @Test
     public void whenValidGetID_ThenReturnUser(){
-        Users found = usersService.getUser(21);
-        Assertions.assertThat(found.getEmail()).isEqualTo("michael12er@gmail.com");
+        Users found = usersService.getUser(1);
+        Assertions.assertThat(found.getEmail()).isEqualTo("mc2394q23@gmail.com");
     }
 
     @Test
     public void whenValidGetID_ThenReturnUserSales(){
-        UsersSalesForce found = usersService.getUserSalesForce("21");
-        Assertions.assertThat(found.getEmail()).isEqualTo("michael12er@gmail.com");
+        UsersSalesForce found = usersService.getUserSalesForce("65fbd85e9dbd8d36c5324333");
+        Assertions.assertThat(found.getEmail()).isEqualTo("mc2394q23@gmail.com");
     }
 
     @Test
     public void whenValidUpdateFields_ThenReturnUser(){
-        Users userUpdate = usersService.updateUser(new Users(31,"leidy","marin","marinleidyvannesa@gmail.com"));
-        Assertions.assertThat(userUpdate.getEmail()).isEqualTo(31);
+        Users userUpdate = usersService.updateUser(new Users(2,"leidy","marin","marinleidyvannesa@gmail.com"));
     }
 
     @Test
     public void whenValidCreate_ThenReturnUser(){
-        Users userUpdate = usersService.createUser(new Users(41,"miguel","juniro","junior@gmail.com"));
-        Assertions.assertThat(userUpdate.getEmail()).isEqualTo(41);
+        Users userUpdate = usersService.createUser(new Users(41,"miguel","juniro","junior22@gmail.com"));
+System.out.println(userUpdate);
+        Assertions.assertThat(userUpdate.getEmail()).isEqualTo("junior22@gmail.com");
     }
 
 

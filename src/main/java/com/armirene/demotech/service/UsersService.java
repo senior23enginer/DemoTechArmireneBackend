@@ -37,11 +37,16 @@ public class UsersService {
         if (null == userDB){
             return null;
         }
+
+        if (null == userSalesDB){
+            userSalesDB = new UsersSalesForce();
+        }
         userDB.setFirstName(users.getFirstName());
         userDB.setLastName(users.getLastName());
         userDB.setEmail(users.getEmail());
         userDB.setId(users.getId());
-
+System.out.println( userDB);
+        System.out.println( users);
         userSalesDB.setName(users.getFirstName().concat(" "+users.getLastName()));
         userSalesDB.setEmail(users.getEmail());
 

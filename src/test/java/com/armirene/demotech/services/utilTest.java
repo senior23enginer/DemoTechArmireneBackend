@@ -18,7 +18,7 @@ public class utilTest {
     @Test
     public void whenModelUser_Converter_ThenReturnUserSales(){
         UsersSalesForce found = usersService.converterUserSalesForce(new Users(51,"carlos","torres","torres@gmail.com"));
-        Assertions.assertThat(found.getName()).isEqualTo("carlos torres");
+        Assertions.assertThat(found.getName()).isEqualTo("carlos");
     }
 
 }

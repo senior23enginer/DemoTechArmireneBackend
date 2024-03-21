@@ -1,14 +1,10 @@
 package com.armirene.demotech.controller;
 
+import com.armirene.demotech.document.UsersSalesForce;
 import com.armirene.demotech.entity.Users;
-import com.armirene.demotech.model.StudentModel;
-import com.armirene.demotech.service.StudentService;
 import com.armirene.demotech.service.UsersService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/user")
@@ -23,7 +19,22 @@ public class UsersController {
     }
 
     @RequestMapping(value = "/create", method = RequestMethod.POST)
-    public String createStudent(@RequestBody Users request ){
+    public Users createUser( @RequestBody Users request ){
         return usersService.createUser(request);
+    }
+
+    @RequestMapping(value = "/update", method = RequestMethod.PUT)
+    public Users updateUser( @RequestBody Users request ){
+        return usersService.updateUser(request);
+    }
+
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    public Users getUser( @PathVariable("id") int id){
+        return usersService.getUser(id);
+    }
+
+    @RequestMapping(value = "/user-sales/{id}", method = RequestMethod.GET)
+    public UsersSalesForce getUserSalesForce(@PathVariable("id") String id ){
+        return usersService.getUserSalesForce(id);
     }
 }

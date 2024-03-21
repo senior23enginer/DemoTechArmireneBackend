@@ -1,17 +1,14 @@
 package com.armirene.demotech.service;
 
 import com.armirene.demotech.document.UsersSalesForce;
-import com.armirene.demotech.entity.Student;
-import com.armirene.demotech.document.Course;
 import com.armirene.demotech.entity.Users;
-import com.armirene.demotech.model.StudentModel;
 import com.armirene.demotech.repository.UsersRepository;
 import com.armirene.demotech.repository.UsersSalesForceRepository;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.Optional;
 
 @Service
 public class UsersService {
@@ -23,18 +20,42 @@ public class UsersService {
     UsersRepository usersRepository;
 
     @Transactional
-    public String createUser(Users users){
+    public Users createUser( Users users){
         if (!usersRepository.existsByEmail(users.getEmail())){
             try {
-                usersRepository.save( users );
                 usersSalesForceRepository.save( this.converterUserSalesForce( users ) );
-            }catch (Exception e){
-                throw e;
-            }
-            return "Resource added successfully!";
-        }else {
-            return "Duplicate resource";
+                return usersRepository.save(users);
+            }catch (Exception e){throw e;}
+        }else return null;
+    }
+
+    @Transactional
+    public Users updateUser(Users users){
+
+        Users userDB = usersRepository.findById(users.getId()).orElse(null);
+        UsersSalesForce userSalesDB = usersSalesForceRepository.findByEmail( userDB.getEmail() );
+        if (null == userDB){
+            return null;
         }
+        userDB.setFirstName(users.getFirstName());
+        userDB.setLastName(users.getLastName());
+        userDB.setEmail(users.getEmail());
+        userDB.setId(users.getId());
+
+        userSalesDB.setName(users.getFirstName().concat(" "+users.getLastName()));
+        userSalesDB.setEmail(users.getEmail());
+
+        usersSalesForceRepository.save( userSalesDB );
+        return usersRepository.save(userDB);
+
+    }
+
+    public Users getUser(int id) {
+        return usersRepository.findById(id).orElse(null);
+    }
+
+    public UsersSalesForce getUserSalesForce(String id) {
+        return usersSalesForceRepository.findById(id).orElse(null);
     }
 
 
